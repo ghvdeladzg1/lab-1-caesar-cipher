@@ -18,8 +18,6 @@ for shift in range(26):
 2. XOR Encryption/Decryption
 
 import base64
-
-# --- Step 1: brute-force Caesar for 'mznxpz' ---
 def caesar_decrypt(text, shift):
     out = []
     for ch in text:
@@ -29,31 +27,19 @@ def caesar_decrypt(text, shift):
         else:
             out.append(ch)
     return ''.join(out)
-
 cipher_short = "mznxpz"
 print("Caesar brute-force results for:", cipher_short)
 for s in range(26):
     print(f"shift {s:2}: {caesar_decrypt(cipher_short, s)}")
 print()
-
-# From output we choose the correct plaintext:
 decrypted_short = "rescue"   # from shift = 21
-
-# --- Step 2: anagram -> passphrase ---
-# Rearranging 'rescue' gives 'secure' (fundamental cryptography concept)
 passphrase = "secure"
 print("Decrypted word:", decrypted_short)
 print("Passphrase (anagram rearranged):", passphrase)
 print()
-
-# --- Step 3: XOR decryption ---
 b64_ct = "Jw0KBlIMAEUXHRdFKyoxVRENEgkPEBwCFkQ="
 cipher_bytes = base64.b64decode(b64_ct)
-
 key = passphrase.encode('utf-8')
-
-# repeating-key XOR decrypt
 plain_bytes = bytes([b ^ key[i % len(key)] for i, b in enumerate(cipher_bytes)])
-
 print("XOR-decrypted plaintext:")
 print(plain_bytes.decode('utf-8'))
